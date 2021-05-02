@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo:latest
+    env_file:
+      - .env
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
+    #   - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
+    #   - MONGO_INITDB_DATABASE=$MONGO_INITDB_DATABASE
+    ports:
+      - "27018:27017"
+    volumes:
+      # - ./config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - db-data:/data/db
+  
+  backend:
+    build:
+      context: backend
+    env_file:
+      - .env
+    # environment:
+    #   - MONGO_ENDPOINT=$MONGO_ENDPOINT
+    #   - SUPERUSER_EMAIL=$SUPERUSER_EMAIL
+    #   - SUPERUSER_PASSWORD=$SUPERUSER_PASSWORD
+    ports:
+      - "8888:8888"
+    entrypoint: python main.py
+    depends_on:
+      - mongo
+  
+  # vue:
+  #   build:
+  #     context: frontend
+  #     args:
+  #       - VUE_APP_API_URL=$VUE_APP_API_URL
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - backend
+   
+volumes:
+  db-data:

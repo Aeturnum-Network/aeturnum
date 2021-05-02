@@ -1,0 +1,5 @@
+fastapi==0.61.1
+uvicorn==0.12.1
+motor==2.2.0
+fastapi-users==5.1.0
+requests==2.24.0
