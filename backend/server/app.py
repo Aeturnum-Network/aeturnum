@@ -6,6 +6,8 @@ from starlette.middleware.cors import CORSMiddleware
 from server.config import *
 from server.database import *
 from server.routes.assets import router as assets_router
+from server.routes.users import router as users_router
+from server.routes.users import fastapi_users
 
 app = FastAPI(
     title="Aeturnum API",
@@ -45,3 +47,6 @@ app.include_router(fastapi_users.get_users_router(), prefix="/users", tags=["use
 
 # Asset Routes
 app.include_router(assets_router, prefix="/assets", tags=["assets"])
+
+# User custom route
+app.include_router(users_router, prefix="/users", tags=["users"])
